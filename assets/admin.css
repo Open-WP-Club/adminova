@@ -1,0 +1,90 @@
+/* Adminova skin: every rule is scoped to body.adminova, so deactivating the plugin restores stock WP. */
+body.adminova {
+	--adminova-bg: #f4f5f7;
+	--adminova-surface: #fff;
+	--adminova-text: #1d2327;
+	--adminova-muted: #6b7280;
+	--adminova-border: #e5e7eb;
+	--adminova-accent: #4f46e5;
+	--adminova-radius: 10px;
+	--adminova-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	font-family: var(--adminova-font);
+	color: var(--adminova-text);
+	background: var(--adminova-bg);
+}
+body.adminova.adminova-dark {
+	--adminova-bg: #0f1117;
+	--adminova-surface: #1a1d27;
+	--adminova-text: #e5e7eb;
+	--adminova-muted: #9ca3af;
+	--adminova-border: #2a2f3d;
+	--adminova-accent: #818cf8;
+}
+.adminova #wpwrap, .adminova #wpcontent, .adminova #wpbody { background: var(--adminova-bg); }
+.adminova #wpbody-content a { color: var(--adminova-accent); }
+
+/* Sidebar */
+.adminova #adminmenuback, .adminova #adminmenuwrap, .adminova #adminmenu { background: var(--adminova-surface); }
+.adminova #adminmenuback { border-right: 1px solid var(--adminova-border); }
+.adminova #adminmenu a { color: var(--adminova-text); }
+.adminova #adminmenu div.wp-menu-image:before { color: var(--adminova-muted); }
+.adminova #adminmenu li.menu-top:hover, .adminova #adminmenu li.opensub > a.menu-top,
+.adminova #adminmenu li > a.menu-top:focus { background: var(--adminova-bg); color: var(--adminova-accent); }
+.adminova #adminmenu li.current a.menu-top, .adminova #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu {
+	background: var(--adminova-accent); color: #fff;
+}
+.adminova #adminmenu li.current div.wp-menu-image:before { color: #fff; }
+.adminova #adminmenu .wp-submenu { background: var(--adminova-bg); }
+.adminova #adminmenu .wp-submenu a { color: var(--adminova-muted); }
+.adminova #adminmenu .wp-submenu li.current a, .adminova #adminmenu .wp-submenu a:hover { color: var(--adminova-accent); }
+.adminova #collapse-button { color: var(--adminova-muted); }
+
+/* Top bar */
+.adminova #wpadminbar { background: var(--adminova-surface); border-bottom: 1px solid var(--adminova-border); }
+.adminova #wpadminbar .ab-item, .adminova #wpadminbar a.ab-item, .adminova #wpadminbar #adminbarsearch:before,
+.adminova #wpadminbar .ab-icon:before, .adminova #wpadminbar .ab-item:before { color: var(--adminova-text); }
+.adminova #wpadminbar .menupop .ab-sub-wrapper { background: var(--adminova-surface); border: 1px solid var(--adminova-border); border-radius: 0 0 var(--adminova-radius) var(--adminova-radius); }
+.adminova #wpadminbar li:hover > .ab-item, .adminova #wpadminbar li.hover > .ab-item { background: var(--adminova-bg); color: var(--adminova-accent); }
+
+/* Cards */
+.adminova .postbox, .adminova .card, .adminova .wc-metaboxes-wrapper .wc-metabox {
+	background: var(--adminova-surface); border: 1px solid var(--adminova-border); border-radius: var(--adminova-radius); box-shadow: none;
+}
+.adminova .postbox .hndle, .adminova .postbox-header { border-bottom: 1px solid var(--adminova-border); }
+.adminova .wrap h1, .adminova .wrap h2 { color: var(--adminova-text); font-weight: 600; }
+
+/* Buttons and fields */
+.adminova .button, .adminova input[type=submit].button { border-radius: 8px; border-color: var(--adminova-border); background: var(--adminova-surface); color: var(--adminova-text); }
+.adminova .button-primary { background: var(--adminova-accent); border-color: var(--adminova-accent); color: #fff; }
+.adminova .button-primary:hover, .adminova .button-primary:focus { filter: brightness(1.1); background: var(--adminova-accent); border-color: var(--adminova-accent); color: #fff; }
+.adminova input[type=text], .adminova input[type=search], .adminova input[type=number], .adminova input[type=email],
+.adminova input[type=password], .adminova input[type=url], .adminova select, .adminova textarea {
+	background: var(--adminova-surface); color: var(--adminova-text); border: 1px solid var(--adminova-border); border-radius: 8px;
+}
+.adminova input:focus, .adminova select:focus, .adminova textarea:focus { border-color: var(--adminova-accent); box-shadow: 0 0 0 1px var(--adminova-accent); }
+
+/* Tables */
+.adminova .wp-list-table { background: var(--adminova-surface); border: 1px solid var(--adminova-border); border-radius: var(--adminova-radius); overflow: hidden; box-shadow: none; }
+.adminova .wp-list-table thead th, .adminova .wp-list-table tfoot th { background: var(--adminova-bg); color: var(--adminova-muted); border-color: var(--adminova-border); font-weight: 600; }
+.adminova .wp-list-table.striped > tbody > :nth-child(odd) { background: transparent; }
+.adminova .wp-list-table tbody tr:hover { background: var(--adminova-bg); }
+.adminova .wp-list-table td, .adminova .wp-list-table th { color: var(--adminova-text); padding: 12px 10px; }
+.adminova .subsubsub a { color: var(--adminova-muted); }
+.adminova .subsubsub a.current { color: var(--adminova-accent); font-weight: 600; }
+
+/* Notices */
+.adminova .notice, .adminova div.updated, .adminova div.error { background: var(--adminova-surface); color: var(--adminova-text); border-radius: 8px; box-shadow: none; border: 1px solid var(--adminova-border); border-left-width: 4px; }
+
+/* Woo order status pills */
+.adminova .order-status { border-radius: 999px; padding: 0 12px; font-weight: 600; }
+
+/* Overview widget */
+#adminova_overview .adminova-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 8px; }
+.adminova-tile { background: var(--adminova-bg); border-radius: var(--adminova-radius); padding: 14px; display: flex; flex-direction: column; gap: 4px; }
+.adminova-tile span { color: var(--adminova-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+.adminova-tile strong { font-size: 26px; line-height: 1.2; }
+.adminova-tile em { color: var(--adminova-muted); font-style: normal; font-size: 12px; }
+.adminova-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.adminova-pill { background: var(--adminova-bg); border: 1px solid var(--adminova-border); border-radius: 999px; padding: 4px 12px; text-decoration: none; }
+.adminova-pill b { margin-left: 4px; color: var(--adminova-accent); }
+.adminova-pill.status-processing, .adminova-pill.status-on-hold { border-color: var(--adminova-accent); }
