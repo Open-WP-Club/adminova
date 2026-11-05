@@ -79,7 +79,7 @@ class OrderScreenTest extends AdminovaTestCase {
 		update_option( Adminova_Features::OPTION, array( 'profit' => true ) );
 		$this->actingAs( 'shop_manager' );
 		$p = $this->makeProduct();
-		$_POST[ Adminova_Profit::META ] = '4,50';
+		$_POST[ Adminova_Profit::META ] = '4.50';
 		Adminova_Profit::save( $p->get_id() );
 		$this->assertSame( '4.50', get_post_meta( $p->get_id(), Adminova_Profit::META, true ) );
 

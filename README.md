@@ -1,5 +1,8 @@
 # Adminova
 
+[![Tests](https://github.com/Open-WP-Club/adminova/actions/workflows/tests.yml/badge.svg)](https://github.com/Open-WP-Club/adminova/actions/workflows/tests.yml)
+
+
 Modern look and a one-screen overview (sales, orders by status, low stock) for the WordPress / WooCommerce admin. Skin only: no core changes, no database changes (just one per-user setting for dark mode).
 
 ## Features
@@ -33,8 +36,21 @@ Three layers of tests, from fastest to most realistic:
 | `composer test:integration` | the same flows against real WordPress + WooCommerce in `wp-env` | Docker, Node |
 
 `composer test` runs the first two. Also `composer lint` (PHPCS, WordPress standards) and `composer analyse` (PHPStan).
-First time: `composer install && npm install`, then `npm run env:start` before `composer test:integration`.
+First time: `composer install && composer install -d tools/phpunit9 && npm install`, then `npm run env:start` before `composer test:integration`.
+The integration suite runs on PHPUnit 9.6 (`tools/phpunit9`) because the WordPress test library does not support newer PHPUnit yet.
+The WordPress test library and a `wp-tests-config.php` are normally provided by `wp-env`; if `wp-env start` stops after the database on your machine, see `tests/integration/README.md`.
 
 The plugin itself needs PHP 7.4+; the dev tools need PHP 8.3+. WooCommerce 8+ is optional.
 
 Layout: `adminova.php` (bootstrap), `includes/` (one class per file), `assets/`, `tests/{unit,monkey,integration}`, `languages/`, `uninstall.php`.
+
+## Links
+- Repository: <https://github.com/Open-WP-Club/adminova>
+- Issues and feature requests: <https://github.com/Open-WP-Club/adminova/issues>
+- Changelog: [CHANGELOG.md](CHANGELOG.md)
+
+## Authors
+Made by [Open WP Club](https://github.com/Open-WP-Club). Developer: Gabriel Kanev.
+
+## License
+GPL-2.0-or-later (see the plugin header).

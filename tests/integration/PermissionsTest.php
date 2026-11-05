@@ -38,12 +38,12 @@ class PermissionsTest extends AdminovaTestCase {
 
 	public function test_alerts_answer_order_editors_but_not_other_users(): void {
 		$this->actingAs( 'subscriber' );
-		$this->assertArrayNotHasKey( 'adminova_new', apply_filters( 'heartbeat_received', array(), array( 'adminova_since' => time() ) ) );
+		$this->assertArrayNotHasKey( 'adminova_new', apply_filters( 'heartbeat_received', array(), array( 'adminova_since' => time() ), 'dashboard' ) );
 
 		$this->actingAs( 'shop_manager' );
 		$since = time() - 60;
 		$this->makeOrder( 'processing', '12.00' );
-		$r = apply_filters( 'heartbeat_received', array(), array( 'adminova_since' => $since ) );
+		$r = apply_filters( 'heartbeat_received', array(), array( 'adminova_since' => $since ), 'dashboard' );
 		$this->assertCount( 1, $r['adminova_new']['orders'] );
 		$this->assertStringContainsString( '12.00', $r['adminova_new']['orders'][0]['total'] );
 	}
@@ -51,7 +51,7 @@ class PermissionsTest extends AdminovaTestCase {
 	public function test_alert_amount_is_withheld_from_order_editors_without_reports(): void {
 		$this->makeOrder( 'processing', '12.00' );
 		$this->actingAsOrderEditor();
-		$r = apply_filters( 'heartbeat_received', array(), array( 'adminova_since' => time() - 60 ) );
+		$r = apply_filters( 'heartbeat_received', array(), array( 'adminova_since' => time() - 60 ), 'dashboard' );
 		$this->assertSame( '', $r['adminova_new']['orders'][0]['total'] );
 	}
 

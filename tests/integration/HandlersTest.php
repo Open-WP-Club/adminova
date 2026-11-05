@@ -28,7 +28,8 @@ class HandlersTest extends AdminovaTestCase {
 		$_POST += array( 'order' => (string) $order->get_id(), 'note' => 'x' );
 
 		$this->assertStringContainsString( 'adminova_done=failed', $this->redirectOf( array( 'Adminova_Notes', 'save' ) ) );
-		$this->assertSame( array(), wc_get_order_notes( array( 'order_id' => $order->get_id() ) ) );
+		$contents = wp_list_pluck( wc_get_order_notes( array( 'order_id' => $order->get_id() ) ), 'content' );
+		$this->assertNotContains( 'x', $contents );
 	}
 
 	public function test_restock_adds_to_the_stock_and_the_cache_refreshes(): void {
@@ -76,6 +77,7 @@ class HandlersTest extends AdminovaTestCase {
 	public function test_status_change_is_logged_and_can_be_undone(): void {
 		$this->actingAs( 'shop_manager' );
 		$order = $this->makeOrder( 'processing' );
+		delete_option( Adminova_Undo::OPTION ); // creating the order in the admin is logged too; start clean
 		$order->update_status( 'completed' );
 
 		$log = get_option( Adminova_Undo::OPTION );

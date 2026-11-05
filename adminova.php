@@ -2,7 +2,10 @@
 /**
  * Plugin Name: Adminova
  * Description: Modern look and a one-screen overview for the WordPress/WooCommerce admin. Set ADMINOVA_DISABLE in wp-config.php to switch off.
+ * Plugin URI: https://github.com/Open-WP-Club/adminova
  * Version: 0.1.0
+ * Author: Open WP Club
+ * Author URI: https://github.com/Open-WP-Club
  * Requires PHP: 7.4
  * License: GPL-2.0-or-later
  * Text Domain: adminova

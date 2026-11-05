@@ -3,3 +3,4 @@ vendor/
 .phpunit.cache/
 node_modules/
 /.wp-env.override.json
+tools/phpunit9/vendor/

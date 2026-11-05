@@ -28,9 +28,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          tools: composer
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - run: composer install --no-interaction --prefer-dist
+      - run: composer install -d tools/phpunit9 --no-interaction --prefer-dist
       - run: npm ci
       - run: npx wp-env start
       - run: npm run test:integration

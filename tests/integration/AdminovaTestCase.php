@@ -27,11 +27,14 @@ abstract class AdminovaTestCase extends WP_UnitTestCase {
 
 	/** A user who may edit orders but has no access to reports or products. */
 	protected function actingAsOrderEditor(): int {
-		$id = $this->actingAs( 'subscriber' );
+		$id = self::factory()->user->create( array( 'role' => 'subscriber' ) );
 		$u  = new WP_User( $id );
-		foreach ( array( 'edit_shop_orders', 'edit_others_shop_orders', 'read_shop_order', 'edit_shop_order', 'read' ) as $cap ) {
+		foreach ( array( 'edit_shop_orders', 'edit_others_shop_orders', 'edit_published_shop_orders', 'edit_private_shop_orders' ) as $cap ) {
 			$u->add_cap( $cap );
 		}
+		wp_set_current_user( $id ); // after the caps, so the current user object sees them
+		$this->assertTrue( current_user_can( 'edit_shop_orders' ), 'helper precondition' );
+		$this->assertFalse( current_user_can( 'view_woocommerce_reports' ), 'helper precondition' );
 		return $id;
 	}
 
