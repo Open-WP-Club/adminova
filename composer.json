@@ -3,15 +3,18 @@
 	"description": "Modern look and one-screen overview for the WordPress/WooCommerce admin.",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",
-	"require": { "php": ">=7.4" },
+	"require": {
+		"php": ">=7.4"
+	},
 	"require-dev": {
-		"phpunit/phpunit": "^11.5 || ^12.0",
-		"wp-coding-standards/wpcs": "^3.0",
+		"brain/monkey": "^2.7",
 		"dealerdirect/phpcodesniffer-composer-installer": "^1.0",
-		"phpstan/phpstan": "^2.0",
+		"php-stubs/woocommerce-stubs": "^10.0 || ^9.0",
 		"phpstan/extension-installer": "^1.4",
+		"phpstan/phpstan": "^2.0",
+		"phpunit/phpunit": "^11.5 || ^12.0",
 		"szepeviktor/phpstan-wordpress": "^2.0",
-		"php-stubs/woocommerce-stubs": "^10.0 || ^9.0"
+		"wp-coding-standards/wpcs": "^3.0"
 	},
 	"config": {
 		"sort-packages": true,
@@ -21,7 +24,13 @@
 		}
 	},
 	"scripts": {
-		"test": "phpunit",
+		"test": [
+			"@test:unit",
+			"@test:monkey"
+		],
+		"test:unit": "phpunit",
+		"test:monkey": "phpunit -c phpunit-monkey.xml.dist",
+		"test:integration": "wp-env run tests-cli --env-cwd=wp-content/plugins/adminova vendor/bin/phpunit -c phpunit-integration.xml.dist",
 		"lint": "phpcs",
 		"analyse": "phpstan analyse --memory-limit=1G"
 	}

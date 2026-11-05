@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit bootstrap="tests/bootstrap.php" colors="true" cacheDirectory=".phpunit.cache" failOnWarning="true" failOnRisky="true">
+<!-- Pure-logic unit tests: no WordPress, a few hand-written function stubs. -->
+<phpunit bootstrap="tests/unit/bootstrap.php" colors="true" cacheDirectory=".phpunit.cache" failOnWarning="true" failOnRisky="true">
 	<testsuites>
-		<testsuite name="adminova">
-			<directory suffix="Test.php">tests</directory>
+		<testsuite name="unit">
+			<directory suffix="Test.php">tests/unit</directory>
 		</testsuite>
 	</testsuites>
 	<source>

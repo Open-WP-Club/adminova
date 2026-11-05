@@ -13,6 +13,13 @@ class Adminova_Print {
 		echo '<!doctype html><meta charset="utf-8"><title>' . esc_html__( 'Order slips', 'adminova' ) . '</title>';
 		echo '<style>body{font:14px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;color:#111}section{page-break-after:always;max-width:720px;margin:0 auto 40px}'
 			. 'table{width:100%;border-collapse:collapse;margin:12px 0}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid #ddd}.cols{display:flex;gap:40px}</style>';
+		self::output( $ids );
+		echo '<script>window.onload=function(){window.print()}</script>';
+		exit;
+	}
+
+	// The slips themselves (split from page() so it can be tested without exit).
+	public static function output( array $ids ): void {
 		$reports = current_user_can( 'view_woocommerce_reports' );
 		foreach ( $ids as $id ) {
 			$o = wc_get_order( $id );
@@ -20,8 +27,6 @@ class Adminova_Print {
 				self::slip( $o, $reports );
 			}
 		}
-		echo '<script>window.onload=function(){window.print()}</script>';
-		exit;
 	}
 
 	private static function slip( $o, bool $reports ): void {

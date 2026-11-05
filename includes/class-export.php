@@ -15,12 +15,18 @@ class Adminova_Export {
 	}
 
 	public static function download(): void {
-		$ids     = Adminova_Bulk::request_ids( 'adminova_export' );
-		$reports = current_user_can( 'view_woocommerce_reports' );
+		$ids = Adminova_Bulk::request_ids( 'adminova_export' );
 		header( 'Content-Type: text/csv; charset=utf-8' );
 		header( 'Content-Disposition: attachment; filename="orders-' . gmdate( 'Y-m-d' ) . '.csv"' );
 		$out = fopen( 'php://output', 'w' );
 		fwrite( $out, "\xEF\xBB\xBF" ); // BOM so Excel reads UTF-8
+		self::write( $out, $ids, current_user_can( 'view_woocommerce_reports' ) );
+		fclose( $out );
+		exit;
+	}
+
+	// The CSV rows (split from download() so it can be tested without headers or exit).
+	public static function write( $out, array $ids, bool $reports ): void {
 		$head = array( 'Order', 'Date', 'Status', 'Name', 'Email', 'Phone', 'Country', 'Payment', 'Items' );
 		if ( $reports ) {
 			array_push( $head, 'Total', 'Currency' );
@@ -51,7 +57,5 @@ class Adminova_Export {
 			}
 			fputcsv( $out, array_map( array( self::class, 'cell' ), $row ), ',', '"', '\\' );
 		}
-		fclose( $out );
-		exit;
 	}
 }

@@ -15,5 +15,5 @@ function wp_strip_all_tags($v) { return strip_tags((string) $v); }
 function absint($v) { return abs((int) $v); }
 
 foreach (['features', 'adminova', 'stats', 'bulk', 'settings', 'shortcuts', 'dashboard', 'alerts', 'print', 'export', 'filters', 'notes', 'restock', 'profit', 'customers', 'notify', 'undo'] as $f) {
-	require dirname(__DIR__) . "/includes/class-$f.php";
+	require dirname(__DIR__, 2) . "/includes/class-$f.php";
 }
