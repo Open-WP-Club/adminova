@@ -27,9 +27,12 @@ class Adminova_Dashboard {
 		$s = Adminova_Stats::get();
 		$delta = $s['delta_pct'];
 		echo '<div class="adminova-grid">';
-		self::tile('💰', __('Sales today', 'adminova'), wc_price($s['today']['revenue']),
+		// revenue is financial data: order editors alone don't get it
+		if (current_user_can('view_woocommerce_reports')) {
+			self::tile('💰', __('Sales today', 'adminova'), wc_price($s['today']['revenue']),
 			$delta === null ? __('no sales yesterday', 'adminova') : sprintf(__('%+.1f%% vs yesterday', 'adminova'), $delta),
 			$delta === null ? '' : ($delta >= 0 ? 'up' : 'down'));
+		}
 		self::tile('🛒', __('Orders today', 'adminova'), (string) $s['today']['orders'],
 			sprintf(__('%d yesterday', 'adminova'), $s['yesterday']['orders']));
 		echo '</div><h4>' . esc_html__('Orders by status', 'adminova') . '</h4><p class="adminova-pills">';
@@ -41,7 +44,7 @@ class Adminova_Dashboard {
 			}
 		}
 		echo '</p>';
-		if ($s['low_stock']) {
+		if ($s['low_stock'] && current_user_can('edit_products')) {
 			echo '<h4>' . esc_html__('Low stock', 'adminova') . '</h4><ul>';
 			foreach ($s['low_stock'] as $p) {
 				printf('<li><a href="%s">%s</a> <b>%d</b></li>', esc_url(get_edit_post_link($p['id'])), esc_html($p['name']), $p['qty']);
