@@ -53,6 +53,8 @@ check('print ids parsed and deduped', Adminova_Print::parse_ids('3, 3,x,0,7') ==
 check('print ids from array', Adminova_Print::parse_ids(['5', '-2']) === [5, 2]);
 check('print ids capped', count(Adminova_Print::parse_ids(range(1, 500))) === 100);
 
+check('print nonce bound to ids', Adminova_Print::nonce_action('1,2') !== Adminova_Print::nonce_action('1,3'));
+
 // dark is the default; only an explicit 'light' choice turns it off
 check('dark by default', Adminova::is_dark('') === true);
 check('light when chosen', Adminova::is_dark('light') === false);
