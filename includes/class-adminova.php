@@ -18,6 +18,8 @@ class Adminova {
 		Adminova_Stats::hooks();
 		Adminova_Dashboard::hooks();
 		Adminova_Shortcuts::hooks();
+		Adminova_Alerts::hooks();
+		Adminova_Print::hooks();
 	}
 
 	public static function sanitize_theme($v): string {
@@ -37,7 +39,7 @@ class Adminova {
 			return;
 		}
 		wp_enqueue_style('adminova', ADMINOVA_URL . 'assets/admin.css', [], ADMINOVA_VERSION);
-		wp_enqueue_script('adminova', ADMINOVA_URL . 'assets/admin.js', [], ADMINOVA_VERSION, true);
+		wp_enqueue_script('adminova', ADMINOVA_URL . 'assets/admin.js', ['jquery', 'heartbeat'], ADMINOVA_VERSION, true);
 		$accent = self::sanitize_accent(get_user_meta(get_current_user_id(), 'adminova_accent', true));
 		if ($accent) {
 			wp_add_inline_style('adminova', "body.adminova,body.adminova.adminova-dark{--adminova-accent:$accent}");
@@ -45,6 +47,7 @@ class Adminova {
 		$woo = function_exists('wc_get_orders');
 		wp_localize_script('adminova', 'adminova', [
 			'ajax'     => admin_url('admin-ajax.php'),
+			'now'      => time(),
 			'nonce'    => wp_create_nonce('adminova_theme'),
 			'orders'   => $woo && current_user_can('edit_shop_orders') ? Adminova_Shortcuts::orders_url() . '&s=' : '',
 			'products' => $woo && current_user_can('edit_products') ? admin_url('edit.php?post_type=product&s=') : '',
@@ -52,6 +55,7 @@ class Adminova {
 				'placeholder' => __('Jump to a page, or search orders and products...', 'adminova'),
 				'orders'      => __('Search orders:', 'adminova'),
 				'products'    => __('Search products:', 'adminova'),
+				'newOrder'    => __('New order', 'adminova'),
 			],
 		]);
 	}

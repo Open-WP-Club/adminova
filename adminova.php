@@ -18,7 +18,7 @@ add_action('before_woocommerce_init', function () {
 	}
 });
 
-foreach (['adminova', 'stats', 'shortcuts', 'dashboard'] as $f) {
+foreach (['adminova', 'stats', 'shortcuts', 'dashboard', 'alerts', 'print'] as $f) {
 	require_once ADMINOVA_PATH . "includes/class-$f.php";
 }
 

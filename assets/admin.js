@@ -93,4 +93,45 @@
 	});
 	var btn = document.getElementById('wp-admin-bar-adminova-search');
 	if (btn) btn.addEventListener('click', function (e) { e.preventDefault(); open(); });
+
+	// New-order alerts over WP Heartbeat
+	var since = cfg.now || 0;
+
+	function beep() {
+		try {
+			var ctx = new (window.AudioContext || window.webkitAudioContext)();
+			var osc = ctx.createOscillator();
+			osc.frequency.value = 880;
+			osc.connect(ctx.destination);
+			osc.start();
+			osc.stop(ctx.currentTime + 0.15);
+		} catch (e) { /* browsers block audio until the user has interacted with the page */ }
+	}
+
+	function toast(order) {
+		var host = document.getElementById('adminova-toasts');
+		if (!host) {
+			host = document.createElement('div');
+			host.id = 'adminova-toasts';
+			document.body.appendChild(host);
+		}
+		var a = document.createElement('a');
+		a.href = order.url;
+		a.textContent = cfg.i18n.newOrder + ' #' + order.number + ' - ' + order.name + (order.total ? ' - ' + order.total : '');
+		host.appendChild(a);
+		setTimeout(function () { a.remove(); }, 15000);
+	}
+
+	if (window.jQuery) {
+		jQuery(document).on('heartbeat-send', function (e, data) { data.adminova_since = since; });
+		jQuery(document).on('heartbeat-tick', function (e, data) {
+			var n = data.adminova_new;
+			if (!n) return;
+			since = n.since;
+			if (n.orders.length) {
+				beep();
+				n.orders.forEach(toast);
+			}
+		});
+	}
 })();

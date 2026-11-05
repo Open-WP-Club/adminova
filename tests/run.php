@@ -5,10 +5,12 @@ $GLOBALS['hooks'] = [];
 function add_action($h, $cb, $p = 10) { $GLOBALS['hooks'][$h][] = $cb; }
 function add_filter($h, $cb, $p = 10) { add_action($h, $cb); }
 function add_query_arg($k, $v, $url) { return $url . (strpos($url, '?') === false ? '?' : '&') . "$k=$v"; }
+function absint($v) { return abs((int) $v); }
 function admin_url($p = '') { return 'http://x/wp-admin/' . $p; }
 
+define('DAY_IN_SECONDS', 86400);
 $root = dirname(__DIR__) . '/includes/';
-foreach (['class-adminova.php', 'class-stats.php', 'class-shortcuts.php', 'class-dashboard.php'] as $f) require $root . $f;
+foreach (['class-adminova.php', 'class-stats.php', 'class-shortcuts.php', 'class-dashboard.php', 'class-alerts.php', 'class-print.php'] as $f) require $root . $f;
 
 $fails = 0;
 function check($name, $ok) { global $fails; echo ($ok ? 'PASS' : 'FAIL') . " $name\n"; if (!$ok) $fails++; }
@@ -43,6 +45,13 @@ check('bar heights empty', Adminova_Dashboard::bar_heights([], 80) === []);
 check('accent ok', Adminova::sanitize_accent('#AABBCC') === '#aabbcc');
 check('accent rejects css injection', Adminova::sanitize_accent('#fff;}body{display:none') === '');
 check('accent rejects short hex', Adminova::sanitize_accent('#fff') === '');
+
+check('since keeps recent value', Adminova_Alerts::since(1000, 1500) === 1000);
+check('since clamps stale value', Adminova_Alerts::since(5, 200000) === 200000);
+check('since rejects garbage', Adminova_Alerts::since('x', 200000) === 200000);
+check('print ids parsed and deduped', Adminova_Print::parse_ids('3, 3,x,0,7') === [3, 7]);
+check('print ids from array', Adminova_Print::parse_ids(['5', '-2']) === [5, 2]);
+check('print ids capped', count(Adminova_Print::parse_ids(range(1, 500))) === 100);
 
 // dark is the default; only an explicit 'light' choice turns it off
 check('dark by default', Adminova::is_dark('') === true);
