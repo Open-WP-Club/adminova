@@ -43,16 +43,20 @@ class Adminova_Stats {
 		foreach ($orders as $o) {
 			$revenue += (float) $o->get_total();
 		}
-		return ['orders' => count($orders), 'revenue' => $revenue];
+		return ['label' => wp_date('D', $start->getTimestamp()), 'orders' => count($orders), 'revenue' => $revenue];
 	}
 
 	private static function compute(): array {
-		$empty = ['today' => ['orders' => 0, 'revenue' => 0.0], 'yesterday' => ['orders' => 0, 'revenue' => 0.0], 'delta_pct' => null, 'by_status' => [], 'low_stock' => []];
+		$empty = ['today' => ['orders' => 0, 'revenue' => 0.0], 'yesterday' => ['orders' => 0, 'revenue' => 0.0], 'delta_pct' => null, 'week' => [], 'recent' => [], 'by_status' => [], 'low_stock' => []];
 		if (!function_exists('wc_get_orders')) {
 			return $empty;
 		}
-		$today = self::day(0);
-		$yesterday = self::day(-1);
+		$week = [];
+		for ($i = -6; $i <= 0; $i++) {
+			$week[] = self::day($i);
+		}
+		$today = $week[6];
+		$yesterday = $week[5];
 
 		$by_status = [];
 		foreach (array_keys(wc_get_order_statuses()) as $key) {
@@ -64,9 +68,22 @@ class Adminova_Stats {
 			'today'     => $today,
 			'yesterday' => $yesterday,
 			'delta_pct' => self::delta_pct($today['revenue'], $yesterday['revenue']),
+			'week'      => $week,
 			'by_status' => $by_status,
+			'recent'    => self::recent(),
 			'low_stock' => self::low_stock(),
 		];
+	}
+
+	private static function recent(): array {
+		return array_map(fn($o) => [
+			'number'   => $o->get_order_number(),
+			'name'     => trim($o->get_billing_first_name() . ' ' . $o->get_billing_last_name()) ?: __('Guest', 'adminova'),
+			'total'    => (float) $o->get_total(),
+			'currency' => $o->get_currency(),
+			'status'   => $o->get_status(),
+			'url'      => $o->get_edit_order_url(),
+		], wc_get_orders(['limit' => 5, 'orderby' => 'date', 'order' => 'DESC']));
 	}
 
 	private static function low_stock(): array {

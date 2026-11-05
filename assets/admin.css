@@ -64,7 +64,7 @@ body.adminova.adminova-dark {
 .adminova input:focus, .adminova select:focus, .adminova textarea:focus { border-color: var(--adminova-accent); box-shadow: 0 0 0 1px var(--adminova-accent); }
 
 /* Tables */
-.adminova .wp-list-table { background: var(--adminova-surface); border: 1px solid var(--adminova-border); border-radius: var(--adminova-radius); overflow: hidden; box-shadow: none; }
+.adminova .wp-list-table { background: var(--adminova-surface); border: 1px solid var(--adminova-border); border-radius: var(--adminova-radius); overflow: clip; box-shadow: none; }
 .adminova .wp-list-table thead th, .adminova .wp-list-table tfoot th { background: var(--adminova-bg); color: var(--adminova-muted); border-color: var(--adminova-border); font-weight: 600; }
 .adminova .wp-list-table.striped > tbody > :nth-child(odd) { background: transparent; }
 .adminova .wp-list-table tbody tr:hover { background: var(--adminova-bg); }
@@ -93,3 +93,45 @@ body.adminova.adminova-dark {
 .adminova-pill { background: var(--adminova-bg); border: 1px solid var(--adminova-border); border-radius: 999px; padding: 4px 12px; text-decoration: none; }
 .adminova-pill b { margin-left: 4px; color: var(--adminova-accent); }
 .adminova-pill.status-processing, .adminova-pill.status-on-hold { border-color: var(--adminova-accent); }
+
+/* Quick actions, chart, latest orders */
+.adminova-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.adminova-actions .button { display: inline-flex; align-items: center; gap: 4px; }
+.adminova-chart { width: 100%; max-height: 150px; }
+.adminova-chart rect { fill: var(--adminova-accent); opacity: .85; }
+.adminova-chart rect:hover { opacity: 1; }
+.adminova-chart text { fill: var(--adminova-muted); font-size: 10px; }
+.adminova-recent { margin: 0; }
+.adminova-recent li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--adminova-border); margin: 0; }
+.adminova-recent li a { flex: 1; text-decoration: none; font-weight: 600; }
+.adminova-recent mark, .adminova .order-status { background: var(--adminova-bg); color: var(--adminova-text); border-radius: 999px; padding: 2px 10px; font-size: 12px; }
+.adminova-recent mark.status-processing, .adminova .order-status.status-processing { background: rgba(79, 70, 229, .18); color: var(--adminova-accent); }
+.adminova-recent mark.status-completed, .adminova .order-status.status-completed { background: rgba(34, 197, 94, .18); color: #22c55e; }
+.adminova-recent mark.status-on-hold, .adminova .order-status.status-on-hold { background: rgba(245, 158, 11, .18); color: #f59e0b; }
+.adminova-recent mark.status-cancelled, .adminova-recent mark.status-failed, .adminova .order-status.status-cancelled, .adminova .order-status.status-failed { background: rgba(239, 68, 68, .18); color: #ef4444; }
+
+/* Lists: sticky header under the admin bar, roomier rows */
+.adminova .wp-list-table thead th { position: sticky; top: 32px; z-index: 2; }
+.adminova .wp-list-table td, .adminova .wp-list-table th { padding: 14px 10px; }
+
+/* Ctrl+K palette */
+#adminova-palette { position: fixed; inset: 0; z-index: 100000; background: rgba(0, 0, 0, .5); display: flex; justify-content: center; align-items: flex-start; padding-top: 12vh; }
+#adminova-palette[hidden] { display: none; }
+#adminova-palette > div { width: min(560px, 92vw); background: var(--adminova-surface, #fff); color: var(--adminova-text, #1d2327); border-radius: 14px; box-shadow: 0 20px 60px rgba(0, 0, 0, .4); overflow: hidden; }
+#adminova-palette input { width: 100%; box-sizing: border-box; border: 0; border-bottom: 1px solid var(--adminova-border, #e5e7eb); border-radius: 0; padding: 16px 18px; font-size: 16px; background: transparent; color: inherit; }
+#adminova-palette ul { margin: 0; max-height: 50vh; overflow-y: auto; }
+#adminova-palette li { margin: 0; padding: 10px 18px; cursor: pointer; }
+#adminova-palette li.on, #adminova-palette li:hover { background: var(--adminova-accent, #4f46e5); color: #fff; }
+
+/* Phones and small tablets */
+@media (max-width: 782px) {
+	.adminova .wp-list-table thead th { top: 46px; }
+	.adminova .button, .adminova input[type=submit].button { min-height: 40px; display: inline-flex; align-items: center; }
+	.adminova input[type=text], .adminova input[type=search], .adminova select { min-height: 40px; }
+	#adminova_overview .adminova-grid { grid-template-columns: 1fr 1fr; }
+	.adminova-tile strong { font-size: 22px; }
+	.adminova-recent li { flex-wrap: wrap; }
+}
+@media (max-width: 480px) {
+	#adminova_overview .adminova-grid { grid-template-columns: 1fr; }
+}

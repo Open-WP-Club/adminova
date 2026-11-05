@@ -35,6 +35,15 @@ check('theme dark ok', Adminova::sanitize_theme('dark') === 'dark');
 check('theme invalid rejected', Adminova::sanitize_theme('<script>') === '');
 check('theme non-string rejected', Adminova::sanitize_theme(['dark']) === '');
 
+check('new order hpos url', Adminova_Shortcuts::new_order_url(true) === 'http://x/wp-admin/admin.php?page=wc-orders&action=new');
+check('new order legacy url', Adminova_Shortcuts::new_order_url(false) === 'http://x/wp-admin/post-new.php?post_type=shop_order');
+check('bar heights scale to max', Adminova_Dashboard::bar_heights([0, 50, 100], 80) === [0, 40, 80]);
+check('bar heights all zero', Adminova_Dashboard::bar_heights([0, 0], 80) === [0, 0]);
+check('bar heights empty', Adminova_Dashboard::bar_heights([], 80) === []);
+check('accent ok', Adminova::sanitize_accent('#AABBCC') === '#aabbcc');
+check('accent rejects css injection', Adminova::sanitize_accent('#fff;}body{display:none') === '');
+check('accent rejects short hex', Adminova::sanitize_accent('#fff') === '');
+
 // dark is the default; only an explicit 'light' choice turns it off
 check('dark by default', Adminova::is_dark('') === true);
 check('light when chosen', Adminova::is_dark('light') === false);
