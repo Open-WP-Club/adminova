@@ -29,11 +29,11 @@ class Adminova_Dashboard {
 		echo '<div class="adminova-grid">';
 		// revenue is financial data: order editors alone don't get it
 		if (current_user_can('view_woocommerce_reports')) {
-			self::tile('💰', __('Sales today', 'adminova'), wc_price($s['today']['revenue']),
+			self::tile('money-alt', __('Sales today', 'adminova'), wc_price($s['today']['revenue']),
 			$delta === null ? __('no sales yesterday', 'adminova') : sprintf(__('%+.1f%% vs yesterday', 'adminova'), $delta),
 			$delta === null ? '' : ($delta >= 0 ? 'up' : 'down'));
 		}
-		self::tile('🛒', __('Orders today', 'adminova'), (string) $s['today']['orders'],
+		self::tile('cart', __('Orders today', 'adminova'), (string) $s['today']['orders'],
 			sprintf(__('%d yesterday', 'adminova'), $s['yesterday']['orders']));
 		echo '</div><h4>' . esc_html__('Orders by status', 'adminova') . '</h4><p class="adminova-pills">';
 		foreach ($s['by_status'] as $slug => $n) {
@@ -54,7 +54,7 @@ class Adminova_Dashboard {
 	}
 
 	private static function tile(string $icon, string $label, string $value, string $note, string $trend = ''): void {
-		printf('<div class="adminova-tile"><i>%s</i><span>%s</span><strong>%s</strong><em class="%s">%s</em></div>',
+		printf('<div class="adminova-tile"><i class="dashicons dashicons-%s"></i><span>%s</span><strong>%s</strong><em class="%s">%s</em></div>',
 			$icon, esc_html($label), wp_kses_post($value), esc_attr($trend), esc_html($note));
 	}
 }
