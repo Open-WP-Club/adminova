@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Handler / permission tests: WordPress and WooCommerce are mocked with Brain Monkey + Mockery, no Docker needed. -->
+<phpunit bootstrap="tests/monkey/bootstrap.php" colors="true" cacheDirectory=".phpunit.cache" failOnWarning="true" failOnRisky="true">
+	<testsuites>
+		<testsuite name="monkey">
+			<directory suffix="Test.php">tests/monkey</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>

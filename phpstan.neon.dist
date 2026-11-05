@@ -1,0 +1,9 @@
+parameters:
+    level: 5
+    paths:
+        - adminova.php
+        - includes
+    scanFiles:
+        - vendor/php-stubs/woocommerce-stubs/woocommerce-stubs.php
+    bootstrapFiles:
+        - phpstan-constants.php

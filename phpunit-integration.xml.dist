@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Runs inside wp-env against real WordPress + WooCommerce: composer test:integration -->
+<phpunit bootstrap="tests/integration/bootstrap.php" colors="true" failOnWarning="true">
+	<testsuites>
+		<testsuite name="integration">
+			<directory suffix="Test.php">tests/integration</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>

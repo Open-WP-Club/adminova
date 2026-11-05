@@ -1,0 +1,8 @@
+{
+	"name": "adminova/phpunit9-tooling",
+	"description": "PHPUnit 9.6 for the integration suite only: the WordPress test library does not support newer PHPUnit yet.",
+	"type": "project",
+	"license": "GPL-2.0-or-later",
+	"require-dev": { "phpunit/phpunit": "^9.6" },
+	"config": { "sort-packages": true }
+}

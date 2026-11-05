@@ -1,0 +1,22 @@
+{
+	"name": "adminova",
+	"private": true,
+	"description": "Dev tooling only: wp-env runs the integration tests against real WordPress + WooCommerce.",
+	"homepage": "https://github.com/Open-WP-Club/adminova",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Open-WP-Club/adminova.git"
+	},
+	"bugs": {
+		"url": "https://github.com/Open-WP-Club/adminova/issues"
+	},
+	"author": "Open WP Club (https://github.com/Open-WP-Club)",
+	"scripts": {
+		"env:start": "wp-env start",
+		"env:stop": "wp-env stop",
+		"test:integration": "wp-env run tests-cli --env-cwd=wp-content/plugins/adminova php tools/phpunit9/vendor/bin/phpunit -c phpunit-integration.xml.dist"
+	},
+	"devDependencies": {
+		"@wordpress/env": "^10.0.0"
+	}
+}

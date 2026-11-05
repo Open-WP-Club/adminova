@@ -1,0 +1,150 @@
+/* Adminova skin: every rule is scoped to body.adminova, so deactivating the plugin restores stock WP. */
+body.adminova {
+	--adminova-bg: #f4f5f7;
+	--adminova-surface: #fff;
+	--adminova-text: #1d2327;
+	--adminova-muted: #6b7280;
+	--adminova-border: #e5e7eb;
+	--adminova-accent: #4f46e5;
+	--adminova-radius: 10px;
+	--adminova-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+	font-family: var(--adminova-font);
+	color: var(--adminova-text);
+	background: var(--adminova-bg);
+}
+body.adminova.adminova-dark {
+	--adminova-bg: #0f1117;
+	--adminova-surface: #1a1d27;
+	--adminova-text: #e5e7eb;
+	--adminova-muted: #9ca3af;
+	--adminova-border: #2a2f3d;
+	--adminova-accent: #818cf8;
+}
+.adminova #wpwrap, .adminova #wpcontent, .adminova #wpbody { background: var(--adminova-bg); }
+.adminova #wpbody-content a { color: var(--adminova-accent); }
+
+/* Sidebar */
+.adminova #adminmenuback, .adminova #adminmenuwrap, .adminova #adminmenu { background: var(--adminova-surface); }
+.adminova #adminmenuback { border-right: 1px solid var(--adminova-border); }
+.adminova #adminmenu a { color: var(--adminova-text); }
+.adminova #adminmenu div.wp-menu-image:before { color: var(--adminova-muted); }
+.adminova #adminmenu li.menu-top:hover, .adminova #adminmenu li.opensub > a.menu-top,
+.adminova #adminmenu li > a.menu-top:focus { background: var(--adminova-bg); color: var(--adminova-accent); }
+.adminova #adminmenu li.current a.menu-top, .adminova #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu {
+	background: var(--adminova-accent); color: #fff;
+}
+.adminova #adminmenu li.current div.wp-menu-image:before { color: #fff; }
+.adminova #adminmenu .wp-submenu { background: var(--adminova-bg); }
+.adminova #adminmenu .wp-submenu a { color: var(--adminova-muted); }
+.adminova #adminmenu .wp-submenu li.current a, .adminova #adminmenu .wp-submenu a:hover { color: var(--adminova-accent); }
+.adminova #collapse-button { color: var(--adminova-muted); }
+
+/* Top bar */
+.adminova #wpadminbar { background: var(--adminova-surface); border-bottom: 1px solid var(--adminova-border); }
+.adminova #wpadminbar .ab-item, .adminova #wpadminbar a.ab-item, .adminova #wpadminbar #adminbarsearch:before,
+.adminova #wpadminbar .ab-icon:before, .adminova #wpadminbar .ab-item:before { color: var(--adminova-text); }
+.adminova #wpadminbar .menupop .ab-sub-wrapper { background: var(--adminova-surface); border: 1px solid var(--adminova-border); border-radius: 0 0 var(--adminova-radius) var(--adminova-radius); }
+.adminova #wpadminbar li:hover > .ab-item, .adminova #wpadminbar li.hover > .ab-item { background: var(--adminova-bg); color: var(--adminova-accent); }
+
+/* Cards */
+.adminova .postbox, .adminova .card, .adminova .wc-metaboxes-wrapper .wc-metabox {
+	background: var(--adminova-surface); border: 1px solid var(--adminova-border); border-radius: var(--adminova-radius); box-shadow: none;
+}
+.adminova .postbox .hndle, .adminova .postbox-header { border-bottom: 1px solid var(--adminova-border); }
+.adminova .wrap h1, .adminova .wrap h2 { color: var(--adminova-text); font-weight: 600; }
+
+/* Buttons and fields */
+.adminova .button, .adminova input[type=submit].button { border-radius: 8px; border-color: var(--adminova-border); background: var(--adminova-surface); color: var(--adminova-text); }
+.adminova .button-primary { background: var(--adminova-accent); border-color: var(--adminova-accent); color: #fff; }
+.adminova .button-primary:hover, .adminova .button-primary:focus { filter: brightness(1.1); background: var(--adminova-accent); border-color: var(--adminova-accent); color: #fff; }
+.adminova input[type=text], .adminova input[type=search], .adminova input[type=number], .adminova input[type=email],
+.adminova input[type=password], .adminova input[type=url], .adminova select, .adminova textarea {
+	background: var(--adminova-surface); color: var(--adminova-text); border: 1px solid var(--adminova-border); border-radius: 8px;
+}
+.adminova input:focus, .adminova select:focus, .adminova textarea:focus { border-color: var(--adminova-accent); box-shadow: 0 0 0 1px var(--adminova-accent); }
+
+/* Tables */
+.adminova .wp-list-table { background: var(--adminova-surface); border: 1px solid var(--adminova-border); border-radius: var(--adminova-radius); overflow: clip; box-shadow: none; }
+.adminova .wp-list-table thead th, .adminova .wp-list-table tfoot th { background: var(--adminova-bg); color: var(--adminova-muted); border-color: var(--adminova-border); font-weight: 600; }
+.adminova .wp-list-table.striped > tbody > :nth-child(odd) { background: transparent; }
+.adminova .wp-list-table tbody tr:hover { background: var(--adminova-bg); }
+.adminova .wp-list-table td, .adminova .wp-list-table th { color: var(--adminova-text); padding: 12px 10px; }
+.adminova .subsubsub a { color: var(--adminova-muted); }
+.adminova .subsubsub a.current { color: var(--adminova-accent); font-weight: 600; }
+
+/* Notices */
+.adminova .notice, .adminova div.updated, .adminova div.error { background: var(--adminova-surface); color: var(--adminova-text); border-radius: 8px; box-shadow: none; border: 1px solid var(--adminova-border); border-left-width: 4px; }
+
+/* Woo order status pills */
+.adminova .order-status { border-radius: 999px; padding: 0 12px; font-weight: 600; }
+
+/* Overview widget */
+#adminova_overview .adminova-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 8px; }
+.adminova-tile { position: relative; overflow: hidden; background: linear-gradient(135deg, var(--adminova-surface), var(--adminova-bg)); border: 1px solid var(--adminova-border); border-radius: 14px; padding: 16px 16px 14px 20px; display: flex; flex-direction: column; gap: 4px; transition: transform .15s, box-shadow .15s; }
+.adminova-tile:before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--adminova-accent); }
+.adminova-tile:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0, 0, 0, .18); }
+.adminova-tile i.dashicons { position: absolute; right: 14px; top: 12px; width: 28px; height: 28px; font-size: 28px; color: var(--adminova-accent); opacity: .7; }
+.adminova-tile span { color: var(--adminova-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+.adminova-tile strong { font-size: 28px; line-height: 1.2; }
+.adminova-tile em { font-style: normal; font-size: 12px; color: var(--adminova-muted); }
+.adminova-tile em.up { color: #22c55e; font-weight: 600; }
+.adminova-tile em.down { color: #ef4444; font-weight: 600; }
+.adminova-pills { display: flex; flex-wrap: wrap; gap: 8px; }
+.adminova-pill { background: var(--adminova-bg); border: 1px solid var(--adminova-border); border-radius: 999px; padding: 4px 12px; text-decoration: none; }
+.adminova-pill b { margin-left: 4px; color: var(--adminova-accent); }
+.adminova-pill.status-processing, .adminova-pill.status-on-hold { border-color: var(--adminova-accent); }
+
+/* Quick actions, chart, latest orders */
+.adminova-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.adminova-actions .button { display: inline-flex; align-items: center; gap: 4px; }
+.adminova-chart { width: 100%; max-height: 150px; }
+.adminova-chart rect { fill: var(--adminova-accent); opacity: .85; }
+.adminova-chart rect:hover { opacity: 1; }
+.adminova-chart text { fill: var(--adminova-muted); font-size: 10px; }
+.adminova-recent { margin: 0; }
+.adminova-recent li { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid var(--adminova-border); margin: 0; }
+.adminova-recent li a { flex: 1; text-decoration: none; font-weight: 600; }
+.adminova-recent mark, .adminova .order-status { background: var(--adminova-bg); color: var(--adminova-text); border-radius: 999px; padding: 2px 10px; font-size: 12px; }
+.adminova-recent mark.status-processing, .adminova .order-status.status-processing { background: rgba(79, 70, 229, .18); color: var(--adminova-accent); }
+.adminova-recent mark.status-completed, .adminova .order-status.status-completed { background: rgba(34, 197, 94, .18); color: #22c55e; }
+.adminova-recent mark.status-on-hold, .adminova .order-status.status-on-hold { background: rgba(245, 158, 11, .18); color: #f59e0b; }
+.adminova-recent mark.status-cancelled, .adminova-recent mark.status-failed, .adminova .order-status.status-cancelled, .adminova .order-status.status-failed { background: rgba(239, 68, 68, .18); color: #ef4444; }
+
+/* Lists: sticky header under the admin bar, roomier rows */
+.adminova .wp-list-table thead th { position: sticky; top: 32px; z-index: 2; }
+.adminova .wp-list-table td, .adminova .wp-list-table th { padding: 14px 10px; }
+
+/* Ctrl+K palette */
+#adminova-palette { position: fixed; inset: 0; z-index: 100000; background: rgba(0, 0, 0, .5); display: flex; justify-content: center; align-items: flex-start; padding-top: 12vh; }
+#adminova-palette[hidden] { display: none; }
+#adminova-palette > div { width: min(560px, 92vw); background: var(--adminova-surface, #fff); color: var(--adminova-text, #1d2327); border-radius: 14px; box-shadow: 0 20px 60px rgba(0, 0, 0, .4); overflow: hidden; }
+#adminova-palette input { width: 100%; box-sizing: border-box; border: 0; border-bottom: 1px solid var(--adminova-border, #e5e7eb); border-radius: 0; padding: 16px 18px; font-size: 16px; background: transparent; color: inherit; }
+#adminova-palette ul { margin: 0; max-height: 50vh; overflow-y: auto; }
+#adminova-palette li { margin: 0; padding: 10px 18px; cursor: pointer; }
+#adminova-palette li.on, #adminova-palette li:hover { background: var(--adminova-accent, #4f46e5); color: #fff; }
+
+/* Phones and small tablets */
+@media (max-width: 782px) {
+	.adminova .wp-list-table thead th { top: 46px; }
+	.adminova .button, .adminova input[type=submit].button { min-height: 40px; display: inline-flex; align-items: center; }
+	.adminova input[type=text], .adminova input[type=search], .adminova select { min-height: 40px; }
+	#adminova_overview .adminova-grid { grid-template-columns: 1fr 1fr; }
+	.adminova-tile strong { font-size: 22px; }
+	.adminova-recent li { flex-wrap: wrap; }
+}
+@media (max-width: 480px) {
+	#adminova_overview .adminova-grid { grid-template-columns: 1fr; }
+}
+
+/* New-order toasts */
+#adminova-toasts { position: fixed; right: 20px; bottom: 20px; z-index: 100001; display: flex; flex-direction: column; gap: 8px; }
+#adminova-toasts a { background: var(--adminova-accent, #4f46e5); color: #fff; padding: 12px 16px; border-radius: 10px; text-decoration: none; box-shadow: 0 8px 24px rgba(0, 0, 0, .3); max-width: 320px; }
+
+/* Saved filters, quick note, restock */
+.adminova-filters { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 10px 0; }
+.adminova-inline { display: inline-flex; align-items: center; gap: 4px; margin: 0; }
+.adminova-inline input[type=number] { width: 70px; }
+.adminova-notes { display: flex; flex-wrap: wrap; gap: 6px; }
+.adminova-notes input[type=number] { width: 90px; }
+.adminova-notes input[type=text] { flex: 1; min-width: 140px; }
+#adminova_overview li { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
