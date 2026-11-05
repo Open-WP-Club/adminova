@@ -80,10 +80,15 @@ body.adminova.adminova-dark {
 
 /* Overview widget */
 #adminova_overview .adminova-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 8px; }
-.adminova-tile { background: var(--adminova-bg); border-radius: var(--adminova-radius); padding: 14px; display: flex; flex-direction: column; gap: 4px; }
-.adminova-tile span { color: var(--adminova-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
-.adminova-tile strong { font-size: 26px; line-height: 1.2; }
-.adminova-tile em { color: var(--adminova-muted); font-style: normal; font-size: 12px; }
+.adminova-tile { position: relative; overflow: hidden; background: linear-gradient(135deg, var(--adminova-surface), var(--adminova-bg)); border: 1px solid var(--adminova-border); border-radius: 14px; padding: 16px 16px 14px 20px; display: flex; flex-direction: column; gap: 4px; transition: transform .15s, box-shadow .15s; }
+.adminova-tile:before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: var(--adminova-accent); }
+.adminova-tile:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0, 0, 0, .18); }
+.adminova-tile i { position: absolute; right: 14px; top: 12px; font-style: normal; font-size: 22px; opacity: .85; }
+.adminova-tile span { color: var(--adminova-muted); font-size: 12px; text-transform: uppercase; letter-spacing: .05em; }
+.adminova-tile strong { font-size: 28px; line-height: 1.2; }
+.adminova-tile em { font-style: normal; font-size: 12px; color: var(--adminova-muted); }
+.adminova-tile em.up { color: #22c55e; font-weight: 600; }
+.adminova-tile em.down { color: #ef4444; font-weight: 600; }
 .adminova-pills { display: flex; flex-wrap: wrap; gap: 8px; }
 .adminova-pill { background: var(--adminova-bg); border: 1px solid var(--adminova-border); border-radius: 999px; padding: 4px 12px; text-decoration: none; }
 .adminova-pill b { margin-left: 4px; color: var(--adminova-accent); }

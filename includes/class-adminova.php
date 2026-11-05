@@ -21,6 +21,10 @@ class Adminova {
 		return is_string($v) && in_array($v, self::THEMES, true) ? $v : '';
 	}
 
+	public static function is_dark($meta): bool {
+		return $meta !== 'light';
+	}
+
 	public static function enqueue(): void {
 		if (!current_user_can('edit_posts')) {
 			return;
@@ -38,7 +42,7 @@ class Adminova {
 		if (!current_user_can('edit_posts')) {
 			return $classes;
 		}
-		$dark = get_user_meta(get_current_user_id(), 'adminova_theme', true) === 'dark';
+		$dark = self::is_dark(get_user_meta(get_current_user_id(), 'adminova_theme', true));
 		return $classes . ' adminova' . ($dark ? ' adminova-dark' : '');
 	}
 

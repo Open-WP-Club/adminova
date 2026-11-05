@@ -35,4 +35,9 @@ check('theme dark ok', Adminova::sanitize_theme('dark') === 'dark');
 check('theme invalid rejected', Adminova::sanitize_theme('<script>') === '');
 check('theme non-string rejected', Adminova::sanitize_theme(['dark']) === '');
 
+// dark is the default; only an explicit 'light' choice turns it off
+check('dark by default', Adminova::is_dark('') === true);
+check('light when chosen', Adminova::is_dark('light') === false);
+check('dark when chosen', Adminova::is_dark('dark') === true);
+
 exit($fails ? 1 : 0);
