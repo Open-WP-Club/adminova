@@ -85,14 +85,16 @@
 		input.focus();
 	}
 
-	document.addEventListener('keydown', function (e) {
-		if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k' && !document.body.classList.contains('block-editor-page')) {
-			e.preventDefault();
-			open();
-		}
-	});
-	var btn = document.getElementById('wp-admin-bar-adminova-search');
-	if (btn) btn.addEventListener('click', function (e) { e.preventDefault(); open(); });
+	if (cfg.palette) {
+		document.addEventListener('keydown', function (e) {
+			if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k' && !document.body.classList.contains('block-editor-page')) {
+				e.preventDefault();
+				open();
+			}
+		});
+		var btn = document.getElementById('wp-admin-bar-adminova-search');
+		if (btn) btn.addEventListener('click', function (e) { e.preventDefault(); open(); });
+	}
 
 	// New-order alerts over WP Heartbeat
 	var since = cfg.now || 0;
@@ -122,7 +124,7 @@
 		setTimeout(function () { a.remove(); }, 15000);
 	}
 
-	if (window.jQuery) {
+	if (cfg.alerts && window.jQuery) {
 		jQuery(document).on('heartbeat-send', function (e, data) { data.adminova_since = since; });
 		jQuery(document).on('heartbeat-tick', function (e, data) {
 			var n = data.adminova_new;

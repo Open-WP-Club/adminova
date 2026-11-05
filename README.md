@@ -3,7 +3,18 @@
 Modern look and a one-screen overview (sales, orders by status, low stock) for the WordPress / WooCommerce admin. Skin only: no core changes, no database changes (just one per-user setting for dark mode).
 
 ## Features
-Dashboard card (sales, 7-day chart, latest orders, status links, low stock, quick actions), Ctrl/Cmd+K jump-and-search palette, dark mode (default, per-user toggle), per-user accent colour (Users > Profile), mobile-friendly layout, new-order pop-up with a beep (checks every 30s while an admin page is open), and a bulk action "Print order slips" in the orders list.
+Every extra can be switched on/off in Settings > Adminova; a switched-off extra registers no hooks at all.
+
+- Modern look with dark mode (default) and per-user accent colour; mobile-friendly layout
+- Dashboard card: sales vs yesterday, 7-day chart, latest orders, status links, low stock, quick actions
+- Ctrl/Cmd+K palette: jump to admin pages, search orders and products
+- New-order pop-up with a beep (checks every 30s while an admin page is open)
+- Orders list: bulk "Print order slips" and "Export to CSV", saved filters
+- Dashboard: quick order note, "Restock" button on low-stock products
+- Profit (off by default): cost price field on products, Profit tile on the dashboard
+- Customer history box on the order screen
+- New-order email / Telegram message (off by default)
+- Log of recent order status changes with Undo (Settings > Adminova)
 
 ## Install
 Back up the site, then Plugins > Add New > Upload `adminova.zip` (build it with `bin/build-zip.sh`) and activate.

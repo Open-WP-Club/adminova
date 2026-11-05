@@ -7,4 +7,9 @@
 - New-order pop-up with sound (WP Heartbeat).
 - Bulk action "Print order slips".
 - Mobile layout, sticky list headers, coloured order statuses.
+- Settings page with an on/off switch for every extra.
+- Saved order filters, quick order note, restock button, CSV export (bulk), customer history box.
+- Profit tile with per-product cost price (off by default).
+- New-order email / Telegram message (off by default).
+- Order status change log with Undo.
 - Kill switch: `define('ADMINOVA_DISABLE', true);`

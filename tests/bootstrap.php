@@ -8,8 +8,12 @@ function add_action($hook, $cb, $priority = 10, $args = 1) { $GLOBALS['adminova_
 function add_filter($hook, $cb, $priority = 10, $args = 1) { add_action($hook, $cb); }
 function add_query_arg($key, $value, $url) { return $url . (strpos($url, '?') === false ? '?' : '&') . "$key=$value"; }
 function admin_url($path = '') { return 'http://x/wp-admin/' . $path; }
+function get_option($k, $d = false) { return $d; }
+function __($t) { return $t; }
+function sanitize_text_field($v) { return trim(strip_tags((string) $v)); }
+function wp_strip_all_tags($v) { return strip_tags((string) $v); }
 function absint($v) { return abs((int) $v); }
 
-foreach (['adminova', 'stats', 'shortcuts', 'dashboard', 'alerts', 'print'] as $f) {
+foreach (['features', 'adminova', 'stats', 'bulk', 'settings', 'shortcuts', 'dashboard', 'alerts', 'print', 'export', 'filters', 'notes', 'restock', 'profit', 'customers', 'notify', 'undo'] as $f) {
 	require dirname(__DIR__) . "/includes/class-$f.php";
 }

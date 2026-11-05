@@ -9,6 +9,8 @@ class Adminova_Stats {
 		add_action( 'woocommerce_new_order', array( self::class, 'flush' ) );
 		add_action( 'woocommerce_order_status_changed', array( self::class, 'flush' ) );
 		add_action( 'woocommerce_product_set_stock', array( self::class, 'flush' ) );
+		add_action( 'woocommerce_variation_set_stock', array( self::class, 'flush' ) );
+		add_action( 'update_option_' . Adminova_Features::OPTION, array( self::class, 'flush' ) );
 	}
 
 	public static function flush(): void {
@@ -41,14 +43,24 @@ class Adminova_Stats {
 			)
 		);
 		// ponytail: sums one day of orders in PHP, switch to a SQL SUM if a single day exceeds ~5k orders
-		$revenue = 0.0;
+		$revenue     = 0.0;
+		$profit      = 0.0;
+		$missing     = 0;
+		$with_profit = Adminova_Features::enabled( 'profit' );
 		foreach ( $orders as $o ) {
 			$revenue += (float) $o->get_total();
+			if ( $with_profit ) {
+				$p        = Adminova_Profit::order_profit( $o );
+				$profit  += $p[0];
+				$missing += $p[1];
+			}
 		}
 		return array(
 			'label'   => wp_date( 'D', $start->getTimestamp() ),
 			'orders'  => count( $orders ),
 			'revenue' => $revenue,
+			'profit'  => $profit,
+			'missing' => $missing, // items sold without a cost price
 		);
 	}
 
@@ -57,10 +69,14 @@ class Adminova_Stats {
 			'today'     => array(
 				'orders'  => 0,
 				'revenue' => 0.0,
+				'profit'  => 0.0,
+				'missing' => 0,
 			),
 			'yesterday' => array(
 				'orders'  => 0,
 				'revenue' => 0.0,
+				'profit'  => 0.0,
+				'missing' => 0,
 			),
 			'delta_pct' => null,
 			'week'      => array(),

@@ -27,9 +27,17 @@
 				<element value="view_woocommerce_reports"/>
 				<element value="manage_woocommerce"/>
 				<element value="edit_products"/>
+				<element value="edit_product"/>
 			</property>
 		</properties>
 	</rule>
+	<!-- Core helpers whose output is already escaped, and streaming CSV straight to php://output -->
+	<rule ref="WordPress.Security.EscapeOutput">
+		<properties>
+			<property name="customAutoEscapedFunctions" type="array"><element value="wp_nonce_field"/></property>
+		</properties>
+	</rule>
+	<rule ref="WordPress.WP.AlternativeFunctions"><exclude name="WordPress.WP.AlternativeFunctions.file_system_operations_fwrite"/><exclude name="WordPress.WP.AlternativeFunctions.file_system_operations_fclose"/></rule>
 	<!-- Class names follow the Adminova_Foo scheme, files are class-foo.php -->
 	<rule ref="WordPress.Files.FileName.InvalidClassFileName"><exclude-pattern>*</exclude-pattern></rule>
 </ruleset>

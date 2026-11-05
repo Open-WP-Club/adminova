@@ -45,6 +45,17 @@ class Adminova_Dashboard {
 				$delta === null ? '' : ( $delta >= 0 ? 'up' : 'down' )
 			);
 		}
+		if ( $reports && Adminova_Features::enabled( 'profit' ) ) {
+			self::tile(
+				'chart-line',
+				__( 'Profit today', 'adminova' ),
+				wc_price( $s['today']['profit'] ),
+				$s['today']['missing']
+					/* translators: %d: number of sold items that have no cost price set */
+					? sprintf( __( '%d items have no cost price', 'adminova' ), $s['today']['missing'] )
+					: __( 'from product cost prices', 'adminova' )
+			);
+		}
 		self::tile(
 			'cart',
 			__( 'Orders today', 'adminova' ),
@@ -58,6 +69,7 @@ class Adminova_Dashboard {
 		if ( $reports && $s['week'] ) {
 			self::chart( $s['week'] );
 		}
+		do_action( 'adminova_dashboard_widget', $s );
 
 		if ( $s['recent'] ) {
 			echo '<h4>' . esc_html__( 'Latest orders', 'adminova' ) . '</h4><ul class="adminova-recent">';
@@ -91,7 +103,11 @@ class Adminova_Dashboard {
 		if ( $s['low_stock'] && current_user_can( 'edit_products' ) ) {
 			echo '<h4>' . esc_html__( 'Low stock', 'adminova' ) . '</h4><ul>';
 			foreach ( $s['low_stock'] as $p ) {
-				printf( '<li><a href="%s">%s</a> <b>%d</b></li>', esc_url( get_edit_post_link( $p['id'] ) ), esc_html( $p['name'] ), intval( $p['qty'] ) );
+				printf( '<li><a href="%s">%s</a> <b>%d</b> ', esc_url( get_edit_post_link( $p['id'] ) ), esc_html( $p['name'] ), intval( $p['qty'] ) );
+				if ( Adminova_Features::enabled( 'restock' ) ) {
+					Adminova_Restock::form( (int) $p['id'] );
+				}
+				echo '</li>';
 			}
 			echo '</ul>';
 		}

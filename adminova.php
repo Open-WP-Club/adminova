@@ -23,7 +23,7 @@ add_action(
 	}
 );
 
-foreach ( array( 'adminova', 'stats', 'shortcuts', 'dashboard', 'alerts', 'print' ) as $adminova_file ) {
+foreach ( array( 'features', 'adminova', 'stats', 'bulk', 'settings', 'shortcuts', 'dashboard', 'alerts', 'print', 'export', 'filters', 'notes', 'restock', 'profit', 'customers', 'notify', 'undo' ) as $adminova_file ) {
 	require_once ADMINOVA_PATH . "includes/class-$adminova_file.php";
 }
 
