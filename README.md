@@ -53,4 +53,4 @@ Layout: `adminova.php` (bootstrap), `includes/` (one class per file), `assets/`,
 Made by [Open WP Club](https://github.com/Open-WP-Club). Developer: Gabriel Kanev.
 
 ## License
-GPL-2.0-or-later (see the plugin header).
+GPL-2.0-or-later. See [LICENSE](LICENSE) (GNU General Public License, version 2).
