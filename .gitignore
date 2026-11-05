@@ -2,3 +2,4 @@ adminova.zip
 vendor/
 .phpunit.cache/
 node_modules/
+/.wp-env.override.json

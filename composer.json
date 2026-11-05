@@ -30,7 +30,7 @@
 		],
 		"test:unit": "phpunit",
 		"test:monkey": "phpunit -c phpunit-monkey.xml.dist",
-		"test:integration": "wp-env run tests-cli --env-cwd=wp-content/plugins/adminova vendor/bin/phpunit -c phpunit-integration.xml.dist",
+		"test:integration": "npm run test:integration",
 		"lint": "phpcs",
 		"analyse": "phpstan analyse --memory-limit=1G"
 	}

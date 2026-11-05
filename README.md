@@ -24,6 +24,17 @@ Back up the site, then Plugins > Add New > Upload `adminova.zip` (build it with 
 - Can't reach the admin? Add `define('ADMINOVA_DISABLE', true);` to `wp-config.php`.
 
 ## Dev
-`composer install`, then `composer test` (PHPUnit, no WordPress needed), `composer lint` (PHPCS, WordPress standards), `composer analyse` (PHPStan). Plugin needs PHP 7.4+; the dev tools need PHP 8.3+. WooCommerce 8+ is optional.
+Three layers of tests, from fastest to most realistic:
 
-Layout: `adminova.php` (bootstrap), `includes/` (one class per file), `assets/`, `tests/`, `languages/`, `uninstall.php`.
+| Command | What it runs | Needs |
+|---|---|---|
+| `composer test:unit` | pure logic (parsing, sanitising, maths) with a few hand-written stubs | PHP 8.3+ |
+| `composer test:monkey` | handlers, permissions and rendering with WordPress/WooCommerce mocked (Brain Monkey + Mockery) | PHP 8.3+ |
+| `composer test:integration` | the same flows against real WordPress + WooCommerce in `wp-env` | Docker, Node |
+
+`composer test` runs the first two. Also `composer lint` (PHPCS, WordPress standards) and `composer analyse` (PHPStan).
+First time: `composer install && npm install`, then `npm run env:start` before `composer test:integration`.
+
+The plugin itself needs PHP 7.4+; the dev tools need PHP 8.3+. WooCommerce 8+ is optional.
+
+Layout: `adminova.php` (bootstrap), `includes/` (one class per file), `assets/`, `tests/{unit,monkey,integration}`, `languages/`, `uninstall.php`.
