@@ -13,4 +13,6 @@ Back up the site, then Plugins > Add New > Upload `adminova.zip` (build it with 
 - Can't reach the admin? Add `define('ADMINOVA_DISABLE', true);` to `wp-config.php`.
 
 ## Dev
-`php tests/run.php` runs the unit checks (no WordPress needed). Requires PHP 7.4+, WooCommerce 8+ (optional).
+`composer install`, then `composer test` (PHPUnit, no WordPress needed), `composer lint` (PHPCS, WordPress standards), `composer analyse` (PHPStan). Plugin needs PHP 7.4+; the dev tools need PHP 8.3+. WooCommerce 8+ is optional.
+
+Layout: `adminova.php` (bootstrap), `includes/` (one class per file), `assets/`, `tests/`, `languages/`, `uninstall.php`.

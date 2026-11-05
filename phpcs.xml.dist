@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ruleset name="Adminova">
+	<description>WordPress coding standards for Adminova.</description>
+	<file>adminova.php</file>
+	<file>uninstall.php</file>
+	<file>includes</file>
+	<arg name="extensions" value="php"/>
+	<arg value="ps"/>
+	<config name="testVersion" value="7.4-"/>
+	<rule ref="WordPress-Extra"/>
+	<rule ref="WordPress.WP.I18n">
+		<properties><property name="text_domain" type="array"><element value="adminova"/></property></properties>
+	</rule>
+	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+		<properties><property name="prefixes" type="array"><element value="adminova"/></property></properties>
+	</rule>
+	<!-- Style-only sniffs we skip: Yoda conditions and short ternaries are fine on PHP 7.4+ -->
+	<rule ref="WordPress.PHP.YodaConditions"><exclude name="WordPress.PHP.YodaConditions.NotYoda"/></rule>
+	<rule ref="Universal.Operators.DisallowShortTernary"><exclude name="Universal.Operators.DisallowShortTernary.Found"/></rule>
+	<!-- WooCommerce capabilities -->
+	<rule ref="WordPress.WP.Capabilities">
+		<properties>
+			<property name="custom_capabilities" type="array">
+				<element value="edit_shop_orders"/>
+				<element value="edit_shop_order"/>
+				<element value="edit_shop_coupons"/>
+				<element value="view_woocommerce_reports"/>
+				<element value="manage_woocommerce"/>
+				<element value="edit_products"/>
+			</property>
+		</properties>
+	</rule>
+	<!-- Class names follow the Adminova_Foo scheme, files are class-foo.php -->
+	<rule ref="WordPress.Files.FileName.InvalidClassFileName"><exclude-pattern>*</exclude-pattern></rule>
+</ruleset>

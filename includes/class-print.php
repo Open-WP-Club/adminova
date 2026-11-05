@@ -1,85 +1,103 @@
 <?php
-defined('ABSPATH') || exit;
+defined( 'ABSPATH' ) || exit;
 
 // Bulk action "Print order slips": one printable page with a slip per selected order.
 class Adminova_Print {
-	const MAX = 100;
-	const SCREENS = ['woocommerce_page_wc-orders', 'edit-shop_order'];
+	const MAX     = 100;
+	const SCREENS = array( 'woocommerce_page_wc-orders', 'edit-shop_order' );
 
 	public static function hooks(): void {
-		foreach (self::SCREENS as $screen) {
-			add_filter("bulk_actions-$screen", [self::class, 'add_action']);
-			add_filter("handle_bulk_actions-$screen", [self::class, 'handle'], 10, 3);
+		foreach ( self::SCREENS as $screen ) {
+			add_filter( "bulk_actions-$screen", array( self::class, 'add_action' ) );
+			add_filter( "handle_bulk_actions-$screen", array( self::class, 'handle' ), 10, 3 );
 		}
-		add_action('admin_post_adminova_print', [self::class, 'page']);
+		add_action( 'admin_post_adminova_print', array( self::class, 'page' ) );
 	}
 
-	public static function parse_ids($v): array {
-		$ids = array_filter(array_map('absint', is_array($v) ? $v : explode(',', (string) $v)));
-		return array_slice(array_values(array_unique($ids)), 0, self::MAX);
+	public static function parse_ids( $v ): array {
+		$ids = array_filter( array_map( 'absint', is_array( $v ) ? $v : explode( ',', (string) $v ) ) );
+		return array_slice( array_values( array_unique( $ids ) ), 0, self::MAX );
 	}
 
 	// nonce is bound to the exact id list, so the link can't be edited to print other orders
-	public static function nonce_action(string $ids): string {
-		return 'adminova_print_' . md5($ids);
+	public static function nonce_action( string $ids ): string {
+		return 'adminova_print_' . md5( $ids );
 	}
 
-	public static function add_action($actions) {
-		$actions['adminova_print'] = __('Print order slips', 'adminova');
+	public static function add_action( $actions ) {
+		$actions['adminova_print'] = __( 'Print order slips', 'adminova' );
 		return $actions;
 	}
 
-	public static function handle($redirect, $action, $ids) {
-		if ($action !== 'adminova_print') {
+	public static function handle( $redirect, $action, $ids ) {
+		if ( $action !== 'adminova_print' ) {
 			return $redirect;
 		}
-		$ids = implode(',', self::parse_ids($ids));
-		$url = add_query_arg(['action' => 'adminova_print', 'ids' => $ids], admin_url('admin-post.php'));
-		return wp_nonce_url($url, self::nonce_action($ids));
+		$ids = implode( ',', self::parse_ids( $ids ) );
+		$url = add_query_arg(
+			array(
+				'action' => 'adminova_print',
+				'ids'    => $ids,
+			),
+			admin_url( 'admin-post.php' )
+		);
+		return wp_nonce_url( $url, self::nonce_action( $ids ) );
 	}
 
 	public static function page(): void {
-		$ids = self::parse_ids($_GET['ids'] ?? '');
-		check_admin_referer(self::nonce_action(implode(',', $ids)));
-		if (!current_user_can('edit_shop_orders') || !function_exists('wc_get_order')) {
-			wp_die(esc_html__('You are not allowed to do this.', 'adminova'), '', 403);
+		$ids = self::parse_ids( $_GET['ids'] ?? '' );
+		check_admin_referer( self::nonce_action( implode( ',', $ids ) ) );
+		if ( ! current_user_can( 'edit_shop_orders' ) || ! function_exists( 'wc_get_order' ) ) {
+			wp_die( esc_html__( 'You are not allowed to do this.', 'adminova' ), '', 403 );
 		}
-		echo '<!doctype html><meta charset="utf-8"><title>' . esc_html__('Order slips', 'adminova') . '</title>';
+		echo '<!doctype html><meta charset="utf-8"><title>' . esc_html__( 'Order slips', 'adminova' ) . '</title>';
 		echo '<style>body{font:14px/1.4 -apple-system,Segoe UI,Roboto,sans-serif;color:#111}section{page-break-after:always;max-width:720px;margin:0 auto 40px}'
 			. 'table{width:100%;border-collapse:collapse;margin:12px 0}th,td{text-align:left;padding:6px 8px;border-bottom:1px solid #ddd}.cols{display:flex;gap:40px}</style>';
-		$reports = current_user_can('view_woocommerce_reports');
-		foreach ($ids as $id) {
-			$o = wc_get_order($id);
-			if ($o && $o->get_type() === 'shop_order' && current_user_can('edit_shop_order', $id)) {
-				self::slip($o, $reports);
+		$reports = current_user_can( 'view_woocommerce_reports' );
+		foreach ( $ids as $id ) {
+			$o = wc_get_order( $id );
+			if ( $o && $o->get_type() === 'shop_order' && current_user_can( 'edit_shop_order', $id ) ) {
+				self::slip( $o, $reports );
 			}
 		}
 		echo '<script>window.onload=function(){window.print()}</script>';
 		exit;
 	}
 
-	private static function slip($o, bool $reports): void {
-		printf('<section><h2>%s #%s</h2><p>%s</p><div class="cols"><div><b>%s</b><br>%s<br>%s<br>%s</div><div><b>%s</b><br>%s</div></div>',
-			esc_html__('Order', 'adminova'), esc_html($o->get_order_number()), esc_html(wc_format_datetime($o->get_date_created())),
-			esc_html__('Billing', 'adminova'), wp_kses_post($o->get_formatted_billing_address()), esc_html($o->get_billing_email()), esc_html($o->get_billing_phone()),
-			esc_html__('Shipping', 'adminova'), wp_kses_post($o->get_formatted_shipping_address() ?: '-'));
+	private static function slip( $o, bool $reports ): void {
+		printf(
+			'<section><h2>%s #%s</h2><p>%s</p><div class="cols"><div><b>%s</b><br>%s<br>%s<br>%s</div><div><b>%s</b><br>%s</div></div>',
+			esc_html__( 'Order', 'adminova' ),
+			esc_html( $o->get_order_number() ),
+			esc_html( wc_format_datetime( $o->get_date_created() ) ),
+			esc_html__( 'Billing', 'adminova' ),
+			wp_kses_post( $o->get_formatted_billing_address() ),
+			esc_html( $o->get_billing_email() ),
+			esc_html( $o->get_billing_phone() ),
+			esc_html__( 'Shipping', 'adminova' ),
+			wp_kses_post( $o->get_formatted_shipping_address() ?: '-' )
+		);
 		// prices are financial data: packing info only unless the user may see reports
-		echo '<table><tr><th>' . esc_html__('Item', 'adminova') . '</th><th>' . esc_html__('Qty', 'adminova') . '</th>'
-			. ($reports ? '<th>' . esc_html__('Total', 'adminova') . '</th>' : '') . '</tr>';
-		foreach ($o->get_items() as $item) {
-			printf('<tr><td>%s</td><td>%d</td>%s</tr>', esc_html($item->get_name()), (int) $item->get_quantity(),
-				$reports ? '<td>' . wp_kses_post($o->get_formatted_line_subtotal($item)) . '</td>' : '');
+		echo '<table><tr><th>' . esc_html__( 'Item', 'adminova' ) . '</th><th>' . esc_html__( 'Qty', 'adminova' ) . '</th>'
+			. ( $reports ? '<th>' . esc_html__( 'Total', 'adminova' ) . '</th>' : '' ) . '</tr>';
+		foreach ( $o->get_items() as $item ) {
+			printf(
+				'<tr><td>%s</td><td>%d</td>%s</tr>',
+				esc_html( $item->get_name() ),
+				(int) $item->get_quantity(),
+				$reports ? '<td>' . wp_kses_post( $o->get_formatted_line_subtotal( $item ) ) . '</td>' : ''
+			);
 		}
 		echo '</table>';
-		if ($reports) {
+		if ( $reports ) {
 			echo '<table>';
-			foreach ($o->get_order_item_totals() as $row) {
-				printf('<tr><th>%s</th><td>%s</td></tr>', esc_html(wp_strip_all_tags($row['label'])), wp_kses_post($row['value']));
+			foreach ( $o->get_order_item_totals() as $row ) {
+				printf( '<tr><th>%s</th><td>%s</td></tr>', esc_html( wp_strip_all_tags( $row['label'] ) ), wp_kses_post( $row['value'] ) );
 			}
 			echo '</table>';
 		}
-		if ($o->get_customer_note()) {
-			printf('<p><b>%s</b> %s</p>', esc_html__('Note:', 'adminova'), esc_html($o->get_customer_note()));
+		if ( $o->get_customer_note() ) {
+			printf( '<p><b>%s</b> %s</p>', esc_html__( 'Note:', 'adminova' ), esc_html( $o->get_customer_note() ) );
 		}
 		echo '</section>';
 	}
